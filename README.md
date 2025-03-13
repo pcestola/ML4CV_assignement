@@ -54,13 +54,11 @@ The `main.ipynb` file contains a comprehensive explanation of the project, inclu
     ```bash
     %cd /content/drive/MyDrive/YOUR_FOLDER_PATH
     ```
-6. **Run the Notebook:**
-   - Execute the remaining cells sequentially. The notebook includes cells for:  
-       - Installing dependencies (e.g., torchmetrics)
-       - Downloading the dataset (≈11GB)
-       - Downloading pre-trained model weights for training (≈224MB)
-       - Downloading trained model weights for evaluation (≈224MB)
-   - Training and non-essential cells are disabled using `%%script echo skipping` to ensure smooth execution. To activate these cells, simply remove or comment out this directive at the top of the cell.
+6. Execute the remaining cells sequentially. Training and non-essential cells are disabled using `%%script echo skipping` to ensure smooth execution. The notebook includes cells for:  
+    - Installing dependencies (e.g., torchmetrics)
+    - Downloading the dataset (≈11GB)
+    - Downloading pre-trained model weights for training (≈224MB)
+    - Downloading trained model weights for evaluation (≈224MB)
 
 The notebook is organized into the following sections:
 - **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
@@ -75,7 +73,7 @@ The notebook is organized into the following sections:
 ## Custom Library Overview
 - `lib.train`: contains routines for training, including model architecture definitions, loss functions, logging, and checkpointing.
 
-- `lib.test`: provides evaluation functions. This includes scoring functions for AUPR and functions to compute AUPR and mIoU.
+- `lib.test`: provides evaluation functions. This includes scoring functions, AUPR and mIoU.
 
 - `lib.data`: manages data loading and preprocessing for segmentation tasks. Includes a custom dataset class and synchronized augmentations classes to ensure consistency between image and mask transformations.
 
@@ -83,8 +81,18 @@ The notebook is organized into the following sections:
 
 ## Expected Results
 After completing the evaluation processes, the following performance is expected on the StreetHazards test set:
-- **Segmentation Performance**: 65% mIoU on known classes.
-- **Anomaly Detection Performance**: entropy-based AUPR of 17.3%.
+
+### Segmentation Performance
+
+|mIoU  | Unlabelled | Building | Fence  | Other  | Pole   | Road Line | Road   | Sidewalk | Vegetation | Car    | Wall   | Traffic Sign |
+|------|------------|----------|--------|--------|--------|-----------|--------|----------|------------|--------|--------|--------------|
+|0.6510| 0.8906     | 0.7944   | 0.4264 | 0.3610 | 0.3570 | 0.6368    | 0.9629 | 0.7193   | 0.8660     | 0.7191 | 0.5578 | 0.5207       |
+
+### Anomaly Detection Performance
+
+| Entropy-based AUPR |
+|--------------------|
+| 17.3%              |
 
 ## Using the Original Training and Testing Scripts
 Before running these scripts from Colab:
