@@ -60,6 +60,7 @@ The `main.ipynb` file contains a comprehensive explanation of the project, inclu
     - Downloading pre-trained model weights for training (≈224MB)
     - Downloading trained model weights for evaluation (≈224MB)
 
+## Notebook Structure
 The notebook is organized into the following sections:
 - **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
 - **Dataset**: overview and preparation of the dataset, including download.
