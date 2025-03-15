@@ -1,7 +1,7 @@
 # Semantic Segmentation with Anomaly Detection on StreetHazards
 This project implements semantic segmentation combined with anomaly detection for autonomous driving scenarios. A DeepLabv3+ based architecture is employed to segment known classes (e.g., roads, cars, pedestrians) while detecting unknown objects or anomalies in the scene. Evaluation is performed on the [StreetHazards dataset](https://paperswithcode.com/dataset/streethazards), a synthetic benchmark designed for anomaly segmentation, with the aim of achieving high segmentation accuracy on familiar objects and reliably flagging unexpected elements through prediction uncertainty analysis.
 
----
+## Repository Structure
 
 ```plaintext
 .
@@ -27,8 +27,25 @@ The primary workflow is defined in `main.ipynb`, which integrates all stages: en
 ## Installation and Requirements
 This project is designed to run on Google Colab via the complete `main.ipynb` file, which automatically installs all required dependencies and downloads the necessary files. No manual setup is necessary.
 
-### **Note!**
-The `main.ipynb` file contains a comprehensive explanation of the project, including all necessary details about the work performed and the reasoning behind each step. It serves as the primary guide for understanding the project and its implementation. However, if needed, the scripts originally used for conducting the training and testing processes (`train.py` and `test.py`) are also provided. These scripts require additional configuration and installation of dependencies. Please refer to the final section of this README for further instructions on using these files.
+## Custom Library Overview
+- `./lib/train` contains routines for training, including model architecture definitions, loss functions, logging, and checkpointing.
+
+- `./lib/test` provides evaluation functions. This includes scoring functions, AUPR and mIoU.
+
+- `./lib/data` manages data loading and preprocessing for segmentation tasks. Includes a custom dataset class and synchronized augmentations classes to ensure consistency between image and mask transformations.
+
+- `./lib/utils` offers utility functions for visualization (e.g., displaying segmentation outputs, plotting performance metrics, and generating comparison plots).
+
+## Notebook Structure
+The `main.ipynb` notebook contains a comprehensive explanation of the project, including all necessary details about the work performed and the reasoning behind each step. It serves as the primary guide for understanding the project and its implementation. The notebook is organized into the following sections:
+- **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
+- **Dataset**: overview and preparation of the dataset, including download.
+- **Model**: construction of the model.
+- **Training**: execution of the training loop.
+- **Test**: evaluation of model performance using mIoU and AUPR metrics.
+- **Ablation Study**: additional experiments and analyses.
+
+However, if needed, the scripts originally used for conducting the training and testing processes (`train.py` and `test.py`) are also provided. These scripts require additional configuration and installation of dependencies. Please refer to the final section of this README for further instructions on using these files.
 
 ## Setup
 1. Upload the entire project folder to Google Drive.
@@ -54,37 +71,26 @@ The `main.ipynb` file contains a comprehensive explanation of the project, inclu
     ```bash
     %cd /content/drive/MyDrive/YOUR_FOLDER_PATH
     ```
-6. **Run the Notebook:**
-   - Execute the remaining cells sequentially. The notebook includes cells for:  
-       - Installing dependencies (e.g., torchmetrics)
-       - Downloading the dataset (≈11GB)
-       - Downloading pre-trained model weights for training (≈224MB)
-       - Downloading trained model weights for evaluation (≈224MB)
-   - Training and non-essential cells are disabled using `%%script echo skipping` to ensure smooth execution. To activate these cells, simply remove or comment out this directive at the top of the cell.
-
-The notebook is organized into the following sections:
-- **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
-- **Dataset**: overview and preparation of the dataset, including download.
-- **Model**: construction of the model.
-- **Training**: execution of the training loop.
-- **Test**: evaluation of model performance using mIoU and AUPR metrics.
-- **Ablation Study**: additional experiments and analyses.
-
----
-
-## Custom Library Overview
-- `lib.train`: contains routines for training, including model architecture definitions, loss functions, logging, and checkpointing.
-
-- `lib.test`: provides evaluation functions. This includes scoring functions for AUPR and functions to compute AUPR and mIoU.
-
-- `lib.data`: manages data loading and preprocessing for segmentation tasks. Includes a custom dataset class and synchronized augmentations classes to ensure consistency between image and mask transformations.
-
-- `lib.utils`: offers utility functions for visualization (e.g., displaying segmentation outputs, plotting performance metrics, and generating comparison plots).
+6. Execute the remaining cells sequentially. Training and non-essential cells are disabled using `%%script echo skipping` to ensure smooth execution. The notebook includes cells for:  
+    - Installing dependencies (e.g., torchmetrics)
+    - Downloading the dataset (≈11GB)
+    - Downloading pre-trained model weights for training (≈224MB)
+    - Downloading trained model weights for evaluation (≈224MB)
 
 ## Expected Results
 After completing the evaluation processes, the following performance is expected on the StreetHazards test set:
-- **Segmentation Performance**: 65% mIoU on known classes.
-- **Anomaly Detection Performance**: entropy-based AUPR of 17.3%.
+
+### Segmentation Performance
+
+|mIoU  | Unlabelled | Building | Fence  | Other  | Pole   | Road Line | Road   | Sidewalk | Vegetation | Car    | Wall   | Traffic Sign |
+|------|------------|----------|--------|--------|--------|-----------|--------|----------|------------|--------|--------|--------------|
+|0.6510| 0.8906     | 0.7944   | 0.4264 | 0.3610 | 0.3570 | 0.6368    | 0.9629 | 0.7193   | 0.8660     | 0.7191 | 0.5578 | 0.5207       |
+
+### Anomaly Detection Performance
+
+| Entropy-based AUPR |
+|--------------------|
+| 17.3%              |
 
 ## Using the Original Training and Testing Scripts
 Before running these scripts from Colab:
