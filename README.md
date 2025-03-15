@@ -1,7 +1,7 @@
 # Semantic Segmentation with Anomaly Detection on StreetHazards
 This project implements semantic segmentation combined with anomaly detection for autonomous driving scenarios. A DeepLabv3+ based architecture is employed to segment known classes (e.g., roads, cars, pedestrians) while detecting unknown objects or anomalies in the scene. Evaluation is performed on the [StreetHazards dataset](https://paperswithcode.com/dataset/streethazards), a synthetic benchmark designed for anomaly segmentation, with the aim of achieving high segmentation accuracy on familiar objects and reliably flagging unexpected elements through prediction uncertainty analysis.
 
----
+## Repository Structure
 
 ```plaintext
 .
@@ -27,8 +27,25 @@ The primary workflow is defined in `main.ipynb`, which integrates all stages: en
 ## Installation and Requirements
 This project is designed to run on Google Colab via the complete `main.ipynb` file, which automatically installs all required dependencies and downloads the necessary files. No manual setup is necessary.
 
-### **Note!**
-The `main.ipynb` file contains a comprehensive explanation of the project, including all necessary details about the work performed and the reasoning behind each step. It serves as the primary guide for understanding the project and its implementation. However, if needed, the scripts originally used for conducting the training and testing processes (`train.py` and `test.py`) are also provided. These scripts require additional configuration and installation of dependencies. Please refer to the final section of this README for further instructions on using these files.
+## Custom Library Overview
+- `./lib/train` contains routines for training, including model architecture definitions, loss functions, logging, and checkpointing.
+
+- `./lib/test` provides evaluation functions. This includes scoring functions, AUPR and mIoU.
+
+- `./lib/data` manages data loading and preprocessing for segmentation tasks. Includes a custom dataset class and synchronized augmentations classes to ensure consistency between image and mask transformations.
+
+- `./lib/utils` offers utility functions for visualization (e.g., displaying segmentation outputs, plotting performance metrics, and generating comparison plots).
+
+## Notebook Structure
+The `main.ipynb` notebook contains a comprehensive explanation of the project, including all necessary details about the work performed and the reasoning behind each step. It serves as the primary guide for understanding the project and its implementation. The notebook is organized into the following sections:
+- **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
+- **Dataset**: overview and preparation of the dataset, including download.
+- **Model**: construction of the model.
+- **Training**: execution of the training loop.
+- **Test**: evaluation of model performance using mIoU and AUPR metrics.
+- **Ablation Study**: additional experiments and analyses.
+
+However, if needed, the scripts originally used for conducting the training and testing processes (`train.py` and `test.py`) are also provided. These scripts require additional configuration and installation of dependencies. Please refer to the final section of this README for further instructions on using these files.
 
 ## Setup
 1. Upload the entire project folder to Google Drive.
@@ -59,26 +76,6 @@ The `main.ipynb` file contains a comprehensive explanation of the project, inclu
     - Downloading the dataset (≈11GB)
     - Downloading pre-trained model weights for training (≈224MB)
     - Downloading trained model weights for evaluation (≈224MB)
-
-## Notebook Structure
-The notebook is organized into the following sections:
-- **Setup**: mounting the drive, setting paths, importing libraries, and downloading weights.
-- **Dataset**: overview and preparation of the dataset, including download.
-- **Model**: construction of the model.
-- **Training**: execution of the training loop.
-- **Test**: evaluation of model performance using mIoU and AUPR metrics.
-- **Ablation Study**: additional experiments and analyses.
-
----
-
-## Custom Library Overview
-- `lib.train`: contains routines for training, including model architecture definitions, loss functions, logging, and checkpointing.
-
-- `lib.test`: provides evaluation functions. This includes scoring functions, AUPR and mIoU.
-
-- `lib.data`: manages data loading and preprocessing for segmentation tasks. Includes a custom dataset class and synchronized augmentations classes to ensure consistency between image and mask transformations.
-
-- `lib.utils`: offers utility functions for visualization (e.g., displaying segmentation outputs, plotting performance metrics, and generating comparison plots).
 
 ## Expected Results
 After completing the evaluation processes, the following performance is expected on the StreetHazards test set:
