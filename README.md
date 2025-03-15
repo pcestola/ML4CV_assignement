@@ -49,7 +49,7 @@ However, if needed, the scripts originally used for conducting the training and 
 
 ## Setup
 1. Upload the entire project folder to Google Drive.
-2. Inside `main.ipynb`, a cell is provided to download and extract the dataset. Since this process can be time-consuming, if the dataset is already available on Google Drive, simply move it into the `data` folder and skip the cell. The final directory structure should be as follows:
+2. Inside `main.ipynb`, two cells are provided to download and extract the train and test datasets. If the datasets are already available on Google Drive, simply move them into the `data` folder and skip the cells. The cell for downloading the train set is disabled by default, as it is not necessary for testing the model. If both datasets are downloaded, the final directory structure should be as follows:
    ```plaintext
    data
    ├── train
@@ -73,7 +73,8 @@ However, if needed, the scripts originally used for conducting the training and 
     ```
 6. Execute the remaining cells sequentially. Training and non-essential cells are disabled using `%%script echo skipping` to ensure smooth execution. The notebook includes cells for:  
     - Installing dependencies (e.g., torchmetrics)
-    - Downloading the dataset (≈11GB)
+    - Downloading the test dataset (≈2GB)
+    - Downloading the train dataset (≈9GB)
     - Downloading pre-trained model weights for training (≈224MB)
     - Downloading trained model weights for evaluation (≈224MB)
 
@@ -97,15 +98,30 @@ Before running these scripts from Colab:
 
 1. Install the `torchmetrics` library.
 
-2. Download the pre-trained weights with which to perform training, use one of the following commands, depending on the desired model:
+2. Download the train and test dataset as shown in the `main.ipynb` notebook.
+
+3. Download the pre-trained weights with which to perform training, use one of the following commands, depending on the desired model:
     ```plaintext
     !gdown -c 1-9mz8Dv2_td52qDeDlsBS_AMETXbDPJE -O network/deeplabv3plus_resnet101_voc.pt            (≈224MB)
     !gdown -c 1nmER-DVgFgpbwLN3rRlx0Hf_jqYRYdvc -O network/deeplabv3plus_resnet101_cityscapes.pt     (≈224MB)
     !gdown -c 1-B5OXRUE6K4G6NESlj6Acp5oO3Gqw9Vv -O network/deeplabv3plus_mobilenet_voc.pt            (≈20MB)
     !gdown -c 1-BWSqAzgPMy_QiTBwYHH5xJabmCWUHCz -O network/deeplabv3plus_mobilenet_cityscapes.pt     (≈20MB)
     ```
+    
+The training script automatically create a `/results` folder and generate a file named `train_n.py` (where `n` is a sequential identifier starting from 0). Inside this folder, the trained model and a log file detailing the training progress will also be saved. Example:
+```plaintext
+   results
+   ├── train_0
+   │   ├── ckpts
+   │   │   └── weights.pt
+   │   └── train.log
+   └── train_1
+       ├── ckpts
+       │   └── weights.pt
+       └── train.log
+   ```
 
-The training script automatically create a `/results` folder and generate a file named `train_n.py` (where `n` is a sequential identifier starting from 0). Inside this folder, the trained model and a log file detailing the training progress will also be saved. To manually run the scripts, use the following commands adjusting parameters as desired:
+To manually run the scripts, use the following commands adjusting parameters as desired:
 
 Train: `python train.py --backbone resnet101 --head distance --dataset cityscapes --loss fl+h --gamma 0.1 --gamma_focal 2.0`
 
